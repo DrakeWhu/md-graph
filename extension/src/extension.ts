@@ -15,6 +15,8 @@ import {
   graphConfig,
   normalize,
 } from './utils'
+import { readdir } from 'fs'
+import * as fs from 'fs'
 
 const watch = (
   context: vscode.ExtensionContext,
@@ -22,12 +24,12 @@ const watch = (
   state: State,
   channel: vscode.OutputChannel
 ) => {
-  if (vscode.workspace.rootPath === undefined) {
+  if (vscode.workspace.workspaceFolders === undefined) {
     return
   }
 
   const watcher = vscode.workspace.createFileSystemWatcher(
-    new vscode.RelativePattern(vscode.workspace.rootPath, fileGlob()),
+    new vscode.RelativePattern(vscode.workspace.workspaceFolders[0], fileGlob()),
     false,
     false,
     false
